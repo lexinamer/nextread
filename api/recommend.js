@@ -8,7 +8,11 @@ const MAX_BOOKS_INPUT = 20;
 const MAX_BOOK_STRING_LENGTH = 200;
 const VALID_FOCUS = ['mood', 'topic', 'style'];
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+let client;
+function getClient() {
+  client ??= new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return client;
+}
 
 function validateRequestBody({ books, focus }) {
   if (!Array.isArray(books) || books.length === 0) return 'At least one book is required';
@@ -41,9 +45,10 @@ ${excludeNote}
 
 ${modeInstruction[mode]}
 
-Silently identify what specific reading itch these books satisfy, then recommend exactly ${RECOMMENDATION_COUNT} books that scratch that same itch.
+First, silently identify the genre family of the input books (e.g. literary fiction, historical fiction, thriller, romance, climate fiction, speculative fiction, memoir, etc.). Then recommend exactly ${RECOMMENDATION_COUNT} books that stay within that same genre family.
 
 Rules for choosing:
+- Stay within the genre family of the input books — do not cross into unrelated genres (e.g. if inputs are literary or climate fiction, do not recommend epic fantasy, high fantasy, or genre sci-fi)
 - Prioritize books that are absorbing, easy to get into, emotionally rewarding, and hard to put down
 - Strongly prefer books published in 1990 or later
 - Choose books that are well-loved, dependable, and likely to keep reading momentum high
@@ -119,7 +124,7 @@ export default async function handler(req, res) {
   if (validationError) return res.status(400).json({ error: validationError });
 
   try {
-    const message = await client.messages.create({
+    const message = await getClient().messages.create({
       model: MODEL,
       max_tokens: MAX_TOKENS,
       temperature: TEMPERATURE,
