@@ -8,7 +8,7 @@
   --ink: #1C1A17;
   --ink-mid: #443e39;
   --muted: #6a645d;
-  --border: #E2DDD6;
+  --border: #c8c4bf;
   --rust: #B85C38;
   --rust-dark: #9d4d2f;
 
@@ -80,7 +80,7 @@ button {
 
 nav {
   width: min(1200px, 92vw);
-  margin: var(--space-5) auto var(--space-6);
+  margin: var(--space-5) auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,10 +108,6 @@ nav {
   font-size: var(--text-xl);
   font-weight: 500;
   line-height: 1.1;
-
-  span {
-    color: var(--rust);
-  }
 
   @media (min-width: 767px) {
     font-size: var(--text-xxl);
@@ -323,7 +319,6 @@ input {
 .results-context {
   padding: var(--space-5) 0;
   border-bottom: 1px solid var(--border);
-  margin-bottom: var(--space-5);
 }
 
 .results-context-source {
@@ -373,4 +368,16 @@ input {
 .results-context-sep {
   color: var(--border);
   font-size: var(--text-xs);
+}
+
+
+
+/* =========================
+   MEDIA
+========================= */
+
+@media (max-width: 767px) {
+  .results-context {
+    padding-top: 0;
+  }
 }

@@ -35,7 +35,7 @@ export default function Wizard({ onSubmit, loading }) {
   return (
     <main>
       <h1 className="tagline">
-        Tell us two books you love. We'll tell you <span>what's next.</span>
+        Tell us two books you love. <br />We'll tell you what's next.
       </h1>
 
       <form onSubmit={handleSubmit} className="wizard">
